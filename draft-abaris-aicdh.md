@@ -62,7 +62,7 @@ informative:
 
 --- abstract
 
-This document proposes a machine-readable HTTP response header field, `AI-Disclosure`, to disclose the presence and degree of AI-generated or AI-assisted content in web responses. The header is designed for compatibility with HTTP structured field syntax and provides metadata for user agents, bots, and archiving systems. It supports layered disclosure strategies alongside human-readable and structured metadata formats.
+This document proposes a machine-readable Hypertext Transfer Protocol (HTTP) response header field, `AI-Disclosure`, to disclose the presence and degree of Artificial Intelligence (AI) generated or AI-assisted content in web responses. The header is designed for compatibility with HTTP structured field syntax and provides metadata for user agents, bots, and archiving systems. It supports layered disclosure strategies alongside human-readable and structured metadata formats.
 
 --- middle
 
@@ -77,6 +77,16 @@ The goal of `AI-Disclosure` is to offer a low-overhead, easily parsable signal p
 It is important to distinguish this mechanism from more comprehensive content provenance and authenticity frameworks like the Coalition for Content Provenance and Authenticity (C2PA) specification [C2PA-Spec]. C2PA provides richer, cryptographically signed assertions about content provenance, potentially covering detailed creation/modification history and applying to specific regions within an asset ("Regions of Interest"). C2PA information can be linked via methods including the HTTP `Link` header [RFC8288] pointing to an associated manifest.
 
 `AI-Disclosure` can be seen as complementary to such systems within a layered disclosure strategy. While C2PA offers strong, verifiable, and granular provenance, `AI-Disclosure` provides a simpler, advisory signal directly in the HTTP interaction for basic AI involvement awareness. Systems requiring high assurance or sub-resource granularity should utilize frameworks like C2PA.
+
+# Terminology
+
+## Acronyms and Abbreviations
+
+AI: Artificial Intelligence
+
+HTTP: Hypertext Transfer Protocol
+
+C2PA: Content Provenance and Authenticity, refers to the specification developed by the Coalition for Content Provenance and Authenticity
 
 # Conventions and Definitions
 
