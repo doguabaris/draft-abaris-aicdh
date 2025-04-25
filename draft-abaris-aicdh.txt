@@ -4,8 +4,8 @@
 
 Independent Submission                                         D. Abaris
 Internet-Draft                                    Individual Contributor
-Intended status: Informational                             22 April 2025
-Expires: 24 October 2025
+Intended status: Informational                             25 April 2025
+Expires: 27 October 2025
 
 
                       AI Content Disclosure Header
@@ -36,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 October 2025.
+   This Internet-Draft will expire on 27 October 2025.
 
 Copyright Notice
 
