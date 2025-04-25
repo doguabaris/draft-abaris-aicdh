@@ -1,8 +1,8 @@
 <!-- regenerate: on (set to off if you edit this file) -->
 
-# TODO - Your title
+# AI Content Disclosure Header
 
-This is the working area for the individual Internet-Draft, "TODO - Your title".
+This is the working area for the individual Internet-Draft, "AI Content Disclosure Header".
 
 * [Editor's Copy](https://doguabaris.github.io/draft-abaris-aicdh/#go.draft-abaris-aicdh.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-abaris-aicdh)
