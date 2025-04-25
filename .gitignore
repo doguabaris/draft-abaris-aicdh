@@ -12,6 +12,7 @@
 /.refcache
 /.venv/
 /.vscode/
+/.idea/
 /lib
 /node_modules/
 /versioned/
