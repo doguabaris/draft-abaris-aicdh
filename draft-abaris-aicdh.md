@@ -6,7 +6,7 @@ category: info
 docname: draft-abaris-aicdh-latest
 submissiontype: independent
 number:
-date: 2025-04-22
+date:
 consensus: false
 v: 3
 area: Applications
