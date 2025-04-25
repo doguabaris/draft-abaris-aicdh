@@ -2,34 +2,24 @@
 
 
 
-WG Working Group                                              Y. N. Here
-Internet-Draft                                    Your Organization Here
-Intended status: Informational                             25 April 2025
-Expires: 27 October 2025
+Independent Submission                                         D. Abaris
+Internet-Draft                                    Individual Contributor
+Intended status: Informational                             22 April 2025
+Expires: 24 October 2025
 
 
-                           TODO - Your title
-                  draft-todo-yourname-protocol-latest
+                      AI Content Disclosure Header
+                       draft-abaris-aicdh-latest
 
 Abstract
 
-   TODO Abstract
-
-About This Document
-
-   This note is to be removed before publishing as an RFC.
-
-   The latest revision of this draft can be found at
-   https://example.com/LATEST.  Status information for this document may
-   be found at https://datatracker.ietf.org/doc/draft-todo-yourname-
-   protocol/.
-
-   Discussion of this document takes place on the WG Working Group
-   mailing list (mailto:WG@example.com), which is archived at
-   https://example.com/WG.
-
-   Source for this draft and an issue tracker can be found at
-   https://github.com/USER/REPO.
+   This document proposes a machine-readable HTTP response header field,
+   AI-Disclosure, to disclose the presence and degree of AI-generated or
+   AI-assisted content in web responses.  The header is designed for
+   compatibility with HTTP structured field syntax and provides metadata
+   for user agents, bots, and archiving systems.  It supports layered
+   disclosure strategies alongside human-readable and structured
+   metadata formats.
 
 Status of This Memo
 
@@ -46,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 October 2025.
+   This Internet-Draft will expire on 24 October 2025.
 
 Copyright Notice
 
@@ -57,24 +47,63 @@ Copyright Notice
    Provisions Relating to IETF Documents (https://trustee.ietf.org/
    license-info) in effect on the date of publication of this document.
    Please review these documents carefully, as they describe your rights
-   and restrictions with respect to this document.  Code Components
-   extracted from this document must include Revised BSD License text as
-   described in Section 4.e of the Trust Legal Provisions and are
-   provided without warranty as described in the Revised BSD License.
+   and restrictions with respect to this document.
 
 Table of Contents
 
    1.  Introduction
    2.  Conventions and Definitions
-   3.  Security Considerations
-   4.  IANA Considerations
-   5.  Normative References
+   3.  Field Definition
+   4.  Field Syntax
+     4.1.  Example
+     4.2.  Field Keys
+   5.  Semantics
+   6.  Security Considerations
+   7.  IANA Considerations
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Acknowledgments
    Author's Address
 
 1.  Introduction
 
-   TODO Introduction
+   As AI-generated content proliferates across the web, users
+   [BV-Report], platforms, and regulators increasingly demand
+   transparent disclosure of algorithmic involvement in content creation
+   [PAI-Framework].  Existing approaches to disclosure (e.g., HTML
+   disclaimers) lack machine-readability [GV-Prov], making automation,
+   indexing, and compliance challenging.
+
+   This document defines the AI-Disclosure HTTP header field, providing
+   a lightweight, machine-readable mechanism focused specifically on
+   signaling the presence and mode of AI involvement in the generation
+   of an HTTP response's content.  It utilizes HTTP Structured Fields
+   [RFC9651] to offer a simple dictionary format directly within the
+   HTTP response headers.
+
+   The goal of AI-Disclosure is to offer a low-overhead, easily parsable
+   signal primarily for automated systems like web crawlers, archiving
+   tools, or user agents that may need a quick indication of AI usage
+   without processing complex manifests.  This header is intended to be
+   applied at the entire response level.
+
+   It is important to distinguish this mechanism from more comprehensive
+   content provenance and authenticity frameworks like the Coalition for
+   Content Provenance and Authenticity (C2PA) specification [C2PA-Spec].
+   C2PA provides richer, cryptographically signed assertions about
+   content provenance, potentially covering detailed creation/
+   modification history and applying to specific regions within an asset
+   ("Regions of Interest").  C2PA information can be linked via methods
+   including the HTTP Link header [RFC8288] pointing to an associated
+   manifest.
+
+   AI-Disclosure can be seen as complementary to such systems within a
+   layered disclosure strategy.  While C2PA offers strong, verifiable,
+   and granular provenance, AI-Disclosure provides a simpler, advisory
+   signal directly in the HTTP interaction for basic AI involvement
+   awareness.  Systems requiring high assurance or sub-resource
+   granularity should utilize frameworks like C2PA.
 
 2.  Conventions and Definitions
 
@@ -84,15 +113,140 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Security Considerations
+3.  Field Definition
 
-   TODO Security
+   The AI-Disclosure field is defined as a Structured Field of type
+   Dictionary, as described in [RFC9651].
 
-4.  IANA Considerations
+   +===============+==========+========+========+===========+=========+
+   | Header Field  |Structured|Template|Protocol|Status     |Reference|
+   | Name          |Type      |        |        |           |         |
+   +===============+==========+========+========+===========+=========+
+   | AI-Disclosure |Dictionary|(blank) |http    |provisional|[this    |
+   |               |          |        |        |           |document]|
+   +---------------+----------+--------+--------+-----------+---------+
 
-   This document has no IANA actions.
+                                 Table 1
 
-5.  Normative References
+4.  Field Syntax
+
+   The AI-Disclosure field value MUST conform to the syntax for
+   Dictionary structures defined in Section 3.2 of [RFC9651].  Each key
+   in the dictionary conveys a distinct aspect of AI disclosure.
+
+4.1.  Example
+
+   AI-Disclosure: mode=partial;
+                  model="gpt-4";
+                  provider="OpenAI";
+                  reviewed-by="editorial-team";
+                  date=@1745286896
+
+4.2.  Field Keys
+
+           +=============+========+===========================+
+           | Key         | Type   | Description               |
+           +=============+========+===========================+
+           | mode        | Token  | Indicates AI involvement: |
+           |             |        | none, partial, full       |
+           +-------------+--------+---------------------------+
+           | model       | String | Identifier of the AI      |
+           |             |        | model used (e.g., gpt-4)  |
+           +-------------+--------+---------------------------+
+           | provider    | String | Organization providing    |
+           |             |        | the AI system             |
+           +-------------+--------+---------------------------+
+           | reviewed-by | String | Entity or team who        |
+           |             |        | reviewed the AI content   |
+           +-------------+--------+---------------------------+
+           | date        | Date   | Generation timestamp      |
+           |             |        | (RFC9651 Date format)     |
+           +-------------+--------+---------------------------+
+
+                                 Table 2
+
+5.  Semantics
+
+   The AI-Disclosure header field is an optional and advisory header
+   providing information about the use of AI in generating the response
+   content.  Its presence indicates voluntary disclosure by the server.
+   Absence of the header implies nothing about AI usage.
+
+   The meaning of the header is primarily defined by the mode key, whose
+   possible values are described below:
+
+    +============+===================================================+
+    | Mode Value | Description                                       |
+    +============+===================================================+
+    | none       | Indicates that AI was not used.                   |
+    +------------+---------------------------------------------------+
+    | full       | Indicates the entire content was generated by AI. |
+    +------------+---------------------------------------------------+
+    | partial    | Indicates AI was used for parts of the content or |
+    |            | assisted in its creation.                         |
+    +------------+---------------------------------------------------+
+
+                                 Table 3
+
+   Other keys like model, provider, reviewed-by, and date provide
+   optional, additional context about the AI model used, the provider,
+   human review, or the generation time, respectively.
+
+   Recipients should treat this header as informational only and refer
+   to the Security Considerations (Section 7) regarding its
+   trustworthiness.
+
+   *Note:* The AI-Disclosure header applies to the entire content of the
+   HTTP response payload.  The mode=partial value indicates that AI was
+   involved somewhere in the content or its creation process, but this
+   header does not provide information about specific locations or the
+   exact nature of the partial involvement.  For expressing provenance
+   information about specific parts of a resource, more comprehensive
+   mechanisms such as C2PA [C2PA-Spec] should be used.
+
+6.  Security Considerations
+
+   The AI-Disclosure field is intended to provide advisory metadata
+   about AI-generated or AI-assisted content and does not include any
+   form of integrity protection.  As such, the field can be trivially
+   spoofed or altered by intermediaries unless the response is delivered
+   over a secure transport such as HTTPS.
+
+   Clients and intermediaries MUST NOT rely on the presence, absence, or
+   value of the AI-Disclosure field for making security-critical
+   decisions.  The field is not authenticated and SHOULD be treated as
+   untrusted input.
+
+   This document does not define any mechanisms for cryptographic
+   verification or provenance validation of the header's content.
+   Implementations that require trustworthy disclosure metadata SHOULD
+   rely on additional application-layer integrity mechanisms or signed
+   metadata systems, such as those defined by C2PA [C2PA-Spec].
+
+7.  IANA Considerations
+
+   IANA is requested to register the AI-Disclosure header field in the
+   "Hypertext Transfer Protocol (HTTP) Field Name Registry" maintained
+   at https://www.iana.org/assignments/http-fields/
+   (https://www.iana.org/assignments/http-fields/), according to the
+   procedures outlined in [RFC9110].
+
+   +==========+==========+===========+=========+==========+============+
+   |Header    |Applicable|Status     |Reference|Structured|Notes       |
+   |Field Name|Protocol  |           |         |Type      |            |
+   +==========+==========+===========+=========+==========+============+
+   |AI-       |http      |provisional|[this    |Dictionary|Discloses   |
+   |Disclosure|          |           |document]|          |AI          |
+   |          |          |           |         |          |involvement |
+   |          |          |           |         |          |in content  |
+   |          |          |           |         |          |creation    |
+   +----------+----------+-----------+---------+----------+------------+
+
+                                  Table 4
+
+8.  References
+
+8.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -103,12 +257,52 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
+   [RFC8288]  Nottingham, M., "Web Linking", RFC 8288,
+              DOI 10.17487/RFC8288, October 2017,
+              <https://www.rfc-editor.org/rfc/rfc8288>.
+
+   [RFC9110]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Semantics", STD 97, RFC 9110,
+              DOI 10.17487/RFC9110, June 2022,
+              <https://www.rfc-editor.org/rfc/rfc9110>.
+
+   [RFC9651]  Nottingham, M. and P. Kamp, "Structured Field Values for
+              HTTP", RFC 9651, DOI 10.17487/RFC9651, September 2024,
+              <https://www.rfc-editor.org/rfc/rfc9651>.
+
+8.2.  Informative References
+
+   [BV-Report]
+              Big Valley Marketing, "AI Disclosure and Transparency:
+              Closing the Trust Gap", November 2024,
+              <https://bigvalley.co/wp-content/uploads/2024/11/BV-AI-
+              Research-Report.pdf>.
+
+   [C2PA-Spec]
+              Coalition for Content Provenance and Authenticity (C2PA),
+              "C2PA Specification Version 2.1", July 2024,
+              <https://c2pa.org/specifications/specifications/2.1/specs/
+              C2PA_Specification.html>.
+
+   [GV-Prov]  Hofmann, S., "Content Provenance and Disclosure
+              Requirements for AI Generated Content on Digital and
+              Traditional Media Platforms", 31 March 2025,
+              <https://www.globalvoices.org.au/post/content-provenance-
+              and-disclosure-requirements-for-ai-generated-content-on-
+              digital-and-traditional-m>.
+
+   [PAI-Framework]
+              Partnership on AI, "PAI's Responsible Practices for
+              Synthetic Media: A Framework for Collective Action", 27
+              February 2023,
+              <https://syntheticmedia.partnershiponai.org/>.
+
 Acknowledgments
 
    TODO acknowledge.
 
 Author's Address
 
-   Your Name Here
-   Your Organization Here
-   Email: your.email@example.com
+   Dogu Abaris
+   Individual Contributor
+   Email: abaris@null.net
