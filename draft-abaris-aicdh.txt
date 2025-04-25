@@ -13,13 +13,13 @@ Expires: 27 October 2025
 
 Abstract
 
-   This document proposes a machine-readable HTTP response header field,
-   AI-Disclosure, to disclose the presence and degree of AI-generated or
-   AI-assisted content in web responses.  The header is designed for
-   compatibility with HTTP structured field syntax and provides metadata
-   for user agents, bots, and archiving systems.  It supports layered
-   disclosure strategies alongside human-readable and structured
-   metadata formats.
+   This document proposes a machine-readable Hypertext Transfer Protocol
+   (HTTP) response header field, AI-Disclosure, to disclose the presence
+   and degree of Artificial Intelligence (AI) generated or AI-assisted
+   content in web responses.  The header is designed for compatibility
+   with HTTP structured field syntax and provides metadata for user
+   agents, bots, and archiving systems.  It supports layered disclosure
+   strategies alongside human-readable and structured metadata formats.
 
 Status of This Memo
 
@@ -52,17 +52,19 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-   2.  Conventions and Definitions
-   3.  Field Definition
-   4.  Field Syntax
-     4.1.  Example
-     4.2.  Field Keys
-   5.  Semantics
-   6.  Security Considerations
-   7.  IANA Considerations
-   8.  References
-     8.1.  Normative References
-     8.2.  Informative References
+   2.  Terminology
+     2.1.  Acronyms and Abbreviations
+   3.  Conventions and Definitions
+   4.  Field Definition
+   5.  Field Syntax
+     5.1.  Example
+     5.2.  Field Keys
+   6.  Semantics
+   7.  Security Considerations
+   8.  IANA Considerations
+   9.  References
+     9.1.  Normative References
+     9.2.  Informative References
    Acknowledgments
    Author's Address
 
@@ -105,7 +107,19 @@ Table of Contents
    awareness.  Systems requiring high assurance or sub-resource
    granularity should utilize frameworks like C2PA.
 
-2.  Conventions and Definitions
+2.  Terminology
+
+2.1.  Acronyms and Abbreviations
+
+   AI: Artificial Intelligence
+
+   HTTP: Hypertext Transfer Protocol
+
+   C2PA: Content Provenance and Authenticity, refers to the
+   specification developed by the Coalition for Content Provenance and
+   Authenticity
+
+3.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -113,7 +127,7 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Field Definition
+4.  Field Definition
 
    The AI-Disclosure field is defined as a Structured Field of type
    Dictionary, as described in [RFC9651].
@@ -128,13 +142,13 @@ Table of Contents
 
                                  Table 1
 
-4.  Field Syntax
+5.  Field Syntax
 
    The AI-Disclosure field value MUST conform to the syntax for
    Dictionary structures defined in Section 3.2 of [RFC9651].  Each key
    in the dictionary conveys a distinct aspect of AI disclosure.
 
-4.1.  Example
+5.1.  Example
 
    AI-Disclosure: mode=partial;
                   model="gpt-4";
@@ -142,7 +156,7 @@ Table of Contents
                   reviewed-by="editorial-team";
                   date=@1745286896
 
-4.2.  Field Keys
+5.2.  Field Keys
 
            +=============+========+===========================+
            | Key         | Type   | Description               |
@@ -165,7 +179,7 @@ Table of Contents
 
                                  Table 2
 
-5.  Semantics
+6.  Semantics
 
    The AI-Disclosure header field is an optional and advisory header
    providing information about the use of AI in generating the response
@@ -204,7 +218,7 @@ Table of Contents
    information about specific parts of a resource, more comprehensive
    mechanisms such as C2PA [C2PA-Spec] should be used.
 
-6.  Security Considerations
+7.  Security Considerations
 
    The AI-Disclosure field is intended to provide advisory metadata
    about AI-generated or AI-assisted content and does not include any
@@ -223,7 +237,7 @@ Table of Contents
    rely on additional application-layer integrity mechanisms or signed
    metadata systems, such as those defined by C2PA [C2PA-Spec].
 
-7.  IANA Considerations
+8.  IANA Considerations
 
    IANA is requested to register the AI-Disclosure header field in the
    "Hypertext Transfer Protocol (HTTP) Field Name Registry" maintained
@@ -244,9 +258,9 @@ Table of Contents
 
                                   Table 4
 
-8.  References
+9.  References
 
-8.1.  Normative References
+9.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -270,7 +284,7 @@ Table of Contents
               HTTP", RFC 9651, DOI 10.17487/RFC9651, September 2024,
               <https://www.rfc-editor.org/rfc/rfc9651>.
 
-8.2.  Informative References
+9.2.  Informative References
 
    [BV-Report]
               Big Valley Marketing, "AI Disclosure and Transparency:
