@@ -4,8 +4,8 @@
 
 Independent Submission                                         D. Abaris
 Internet-Draft                                    Individual Contributor
-Intended status: Informational                             28 April 2025
-Expires: 30 October 2025
+Intended status: Informational                           30 January 2026
+Expires: 3 August 2026
 
 
                       AI Content Disclosure Header
@@ -36,11 +36,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 October 2025.
+   This Internet-Draft will expire on 3 August 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -76,6 +76,14 @@ Table of Contents
    [PAI-Framework].  Existing approaches to disclosure (e.g., HTML
    disclaimers) lack machine-readability [GV-Prov], making automation,
    indexing, and compliance challenging.
+
+   Regulatory initiatives like the EU Artificial Intelligence Act
+   include transparency obligations for AI-generated or manipulated
+   content, and the European Commission is developing a Code of Practice
+   on marking and labelling AI-generated content to support compliance
+   with those obligations EU-AI-Act [EC-CodePractice].  A lightweight,
+   machine-readable HTTP signal can complement these efforts by enabling
+   automated detection and disclosure in web delivery.
 
    This document defines the AI-Disclosure HTTP header field, providing
    a lightweight, machine-readable mechanism focused specifically on
@@ -321,6 +329,17 @@ Table of Contents
               "C2PA Specification Version 2.1", July 2024,
               <https://c2pa.org/specifications/specifications/2.1/specs/
               C2PA_Specification.html>.
+
+   [EC-CodePractice]
+              European Commission, "Code of Practice on marking and
+              labelling of AI-generated content", 27 January 2026,
+              <https://digital-strategy.ec.europa.eu/en/policies/code-
+              practice-ai-generated-content>.
+
+   [EU-AI-Act]
+              European Union, "Regulation (EU) 2024/1689 (Artificial
+              Intelligence Act)", 13 June 2024,
+              <https://eur-lex.europa.eu/eli/reg/2024/1689/oj>.
 
    [GV-Prov]  Hofmann, S., "Content Provenance and Disclosure
               Requirements for AI Generated Content on Digital and

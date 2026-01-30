@@ -9,7 +9,7 @@
 <meta content="
        This document proposes a machine-readable Hypertext Transfer Protocol (HTTP) response header field,  AI-Disclosure , to disclose the presence and degree of Artificial Intelligence (AI) generated or AI-assisted content in web responses. The header is designed for compatibility with HTTP structured field syntax and provides metadata for user agents, bots, and archiving systems. It supports layered disclosure strategies alongside human-readable and structured metadata formats. 
     " name="description">
-<meta content="xml2rfc 3.28.1" name="generator">
+<meta content="xml2rfc 3.31.0" name="generator">
 <meta content="AI" name="keyword">
 <meta content="disclosure" name="keyword">
 <meta content="http" name="keyword">
@@ -18,19 +18,18 @@
 <meta content="metadata" name="keyword">
 <meta content="draft-abaris-aicdh-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.1
-    Python 3.12.10
+  xml2rfc 3.31.0
+    Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
-    intervaltree 3.1.0
+    intervaltree 3.2.1
     Jinja2 3.1.6
-    lxml 5.3.0
-    platformdirs 4.3.7
+    lxml 6.0.2
+    platformdirs 4.5.1
     pycountry 24.6.1
-    PyYAML 6.0.2
-    requests 2.32.3
-    setuptools 70.3.0
-    wcwidth 0.2.13
+    PyYAML 6.0.3
+    requests 2.32.5
+    wcwidth 0.3.0
 -->
 <link href="draft-abaris-aicdh.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -571,6 +570,7 @@ aside, blockquote {
 }
 blockquote {
   margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
 }
 cite {
   display: block;
@@ -641,7 +641,7 @@ a.pilcrow {
   }
 }
 @media not print {
-  :hover > a.pilcrow {
+  :hover > a.pilcrow, a.pilcrow:focus {
     opacity: 1;
   }
   a.pilcrow[href]:hover {
@@ -1049,11 +1049,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">AI-Disclosure Header</td>
-<td class="right">April 2025</td>
+<td class="right">January 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Abaris</td>
-<td class="center">Expires 30 October 2025</td>
+<td class="center">Expires 3 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-abaris-aicdh-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-04-28" class="published">28 April 2025</time>
+<time datetime="2026-01-30" class="published">30 January 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-10-30">30 October 2025</time></dd>
+<dd class="expires"><time datetime="2026-08-03">3 August 2026</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1105,7 +1105,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 30 October 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1114,7 +1114,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2025 IETF Trust and the persons identified as the
+            Copyright (c) 2026 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1195,10 +1195,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
 <p id="section-1-1">As AI-generated content proliferates across the web, users <span>[<a href="#BV-Report" class="cite xref">BV-Report</a>]</span>, platforms, and regulators increasingly demand transparent disclosure of algorithmic involvement in content creation <span>[<a href="#PAI-Framework" class="cite xref">PAI-Framework</a>]</span>. Existing approaches to disclosure (e.g., HTML disclaimers) lack machine-readability <span>[<a href="#GV-Prov" class="cite xref">GV-Prov</a>]</span>, making automation, indexing, and compliance challenging.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">This document defines the <code>AI-Disclosure</code> HTTP header field, providing a lightweight, machine-readable mechanism focused specifically on signaling the presence and mode of AI involvement in the generation of an HTTP response's content. It utilizes HTTP Structured Fields <span>[<a href="#RFC9651" class="cite xref">RFC9651</a>]</span> to offer a simple dictionary format directly within the HTTP response headers.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">The goal of <code>AI-Disclosure</code> is to offer a low-overhead, easily parsable signal primarily for automated systems like web crawlers, archiving tools, or user agents that may need a quick indication of AI usage without processing complex manifests. This header is intended to be applied at the entire response level.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">It is important to distinguish this mechanism from more comprehensive content provenance and authenticity frameworks like the Coalition for Content Provenance and Authenticity (C2PA) specification <span>[<a href="#C2PA-Spec" class="cite xref">C2PA-Spec</a>]</span>. C2PA provides richer, cryptographically signed assertions about content provenance, potentially covering detailed creation/modification history and applying to specific regions within an asset ("Regions of Interest"). C2PA information can be linked via methods including the HTTP <code>Link</code> header <span>[<a href="#RFC8288" class="cite xref">RFC8288</a>]</span> pointing to an associated manifest.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5"><code>AI-Disclosure</code> can be seen as complementary to such systems within a layered disclosure strategy. While C2PA offers strong, verifiable, and granular provenance, <code>AI-Disclosure</code> provides a simpler, advisory signal directly in the HTTP interaction for basic AI involvement awareness. Systems requiring high assurance or sub-resource granularity should utilize frameworks like C2PA.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-2">Regulatory initiatives like the EU Artificial Intelligence Act include transparency obligations for AI-generated or manipulated content, and the European Commission is developing a Code of Practice on marking and labelling AI-generated content to support compliance with those obligations <span><a href="#EC-CodePractice" class="internal xref">EU-AI-Act</a> [<a href="#EC-CodePractice" class="cite xref">EC-CodePractice</a>]</span>. A lightweight, machine-readable HTTP signal can complement these efforts by enabling automated detection and disclosure in web delivery.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">This document defines the <code>AI-Disclosure</code> HTTP header field, providing a lightweight, machine-readable mechanism focused specifically on signaling the presence and mode of AI involvement in the generation of an HTTP response's content. It utilizes HTTP Structured Fields <span>[<a href="#RFC9651" class="cite xref">RFC9651</a>]</span> to offer a simple dictionary format directly within the HTTP response headers.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">The goal of <code>AI-Disclosure</code> is to offer a low-overhead, easily parsable signal primarily for automated systems like web crawlers, archiving tools, or user agents that may need a quick indication of AI usage without processing complex manifests. This header is intended to be applied at the entire response level.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">It is important to distinguish this mechanism from more comprehensive content provenance and authenticity frameworks like the Coalition for Content Provenance and Authenticity (C2PA) specification <span>[<a href="#C2PA-Spec" class="cite xref">C2PA-Spec</a>]</span>. C2PA provides richer, cryptographically signed assertions about content provenance, potentially covering detailed creation/modification history and applying to specific regions within an asset ("Regions of Interest"). C2PA information can be linked via methods including the HTTP <code>Link</code> header <span>[<a href="#RFC8288" class="cite xref">RFC8288</a>]</span> pointing to an associated manifest.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6"><code>AI-Disclosure</code> can be seen as complementary to such systems within a layered disclosure strategy. While C2PA offers strong, verifiable, and granular provenance, <code>AI-Disclosure</code> provides a simpler, advisory signal directly in the HTTP interaction for basic AI involvement awareness. Systems requiring high assurance or sub-resource granularity should utilize frameworks like C2PA.<a href="#section-1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="terminology">
@@ -1474,6 +1475,14 @@ AI-Disclosure: mode=ai-originated;
 <dt id="C2PA-Spec">[C2PA-Spec]</dt>
         <dd>
 <span class="refAuthor">Coalition for Content Provenance and Authenticity (C2PA)</span>, <span class="refTitle">"C2PA Specification Version 2.1"</span>, <time datetime="2024-07" class="refDate">July 2024</time>, <span>&lt;<a href="https://c2pa.org/specifications/specifications/2.1/specs/C2PA_Specification.html">https://c2pa.org/specifications/specifications/2.1/specs/C2PA_Specification.html</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="EC-CodePractice">[EC-CodePractice]</dt>
+        <dd>
+<span class="refAuthor">European Commission</span>, <span class="refTitle">"Code of Practice on marking and labelling of AI-generated content"</span>, <time datetime="2026-01-27" class="refDate">27 January 2026</time>, <span>&lt;<a href="https://digital-strategy.ec.europa.eu/en/policies/code-practice-ai-generated-content">https://digital-strategy.ec.europa.eu/en/policies/code-practice-ai-generated-content</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="EU-AI-Act">[EU-AI-Act]</dt>
+        <dd>
+<span class="refAuthor">European Union</span>, <span class="refTitle">"Regulation (EU) 2024/1689 (Artificial Intelligence Act)"</span>, <time datetime="2024-06-13" class="refDate">13 June 2024</time>, <span>&lt;<a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj">https://eur-lex.europa.eu/eli/reg/2024/1689/oj</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="GV-Prov">[GV-Prov]</dt>
         <dd>
