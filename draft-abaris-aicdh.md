@@ -59,6 +59,20 @@ informative:
           ins: S. Hofmann
       date: 2025-03-31
       target: https://www.globalvoices.org.au/post/content-provenance-and-disclosure-requirements-for-ai-generated-content-on-digital-and-traditional-m
+    EC-CodePractice:
+      title: "Code of Practice on marking and labelling of AI-generated content"
+      author:
+        -
+          organization: European Commission
+      date: 2026-01-27
+      target: https://digital-strategy.ec.europa.eu/en/policies/code-practice-ai-generated-content
+    EU-AI-Act:
+      title: "Regulation (EU) 2024/1689 (Artificial Intelligence Act)"
+      author:
+        -
+          organization: European Union
+      date: 2024-06-13
+      target: https://eur-lex.europa.eu/eli/reg/2024/1689/oj
 
 --- abstract
 
@@ -69,6 +83,8 @@ This document proposes a machine-readable Hypertext Transfer Protocol (HTTP) res
 # Introduction
 
 As AI-generated content proliferates across the web, users [BV-Report], platforms, and regulators increasingly demand transparent disclosure of algorithmic involvement in content creation [PAI-Framework]. Existing approaches to disclosure (e.g., HTML disclaimers) lack machine-readability [GV-Prov], making automation, indexing, and compliance challenging.
+
+Regulatory initiatives like the EU Artificial Intelligence Act include transparency obligations for AI-generated or manipulated content, and the European Commission is developing a Code of Practice on marking and labelling AI-generated content to support compliance with those obligations [EU-AI-Act] [EC-CodePractice]. A lightweight, machine-readable HTTP signal can complement these efforts by enabling automated detection and disclosure in web delivery.
 
 This document defines the `AI-Disclosure` HTTP header field, providing a lightweight, machine-readable mechanism focused specifically on signaling the presence and mode of AI involvement in the generation of an HTTP response's content. It utilizes HTTP Structured Fields [RFC9651] to offer a simple dictionary format directly within the HTTP response headers.
 
